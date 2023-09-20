@@ -18,7 +18,7 @@ You will also need to specify the output directory in which you want your types 
 The supported Shopify APIs and API versions are defined here:
 [`src/config/shopify.config.ts`](src/config/shopify.config.ts).
 
-`release_candidate` and `latest` need to be mapped to another existing version to work properly e.g. `April23`.
+The supported Shopify versions are automatically generated based on the date of build.
 
 `yarn build` will trigger the function defined here:
 [`src/codegen/codegen.service.ts`](src/codegen/codegen.service.ts).

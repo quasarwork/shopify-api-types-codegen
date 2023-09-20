@@ -1,5 +1,6 @@
 import { generate } from '@graphql-codegen/cli';
-import { copyFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { copySync } from 'fs-extra';
 import { join } from 'path';
 
 import { appConfig } from '@config/app.config';
@@ -13,7 +14,7 @@ interface GenerateParams {
 }
 
 // These keys are specified in config file but are not fetchable as is from Shopify
-const unfetchableApis = ['release_candidate', 'latest'];
+const unfetchableApiAliases = ['release_candidate', 'latest'];
 
 const generateShopifyApiTypes = async ({
   graphSchemaUrl,
@@ -56,24 +57,20 @@ const generateApiTypes = async () => {
   const { shop, backofficeApp, apis } = shopifyConfig;
 
   // Loop in supported apis
-  for (const apiSlug in apis) {
-    const { versions } = apis[apiSlug];
-
-    for (const versionKey in versions) {
+  for (const api of apis) {
+    for (const apiVersion of api.versions) {
       // Ignore unfetchable api slugs
-      if (unfetchableApis.indexOf(versionKey) !== -1) continue;
+      if (unfetchableApiAliases.indexOf(apiVersion.name) !== -1) continue;
 
-      const apiVersion = versions[versionKey];
-
-      const graphSchemaUrl = `https://${shop}/${apiSlug}/api/${apiVersion}/graphql.json`;
+      const graphSchemaUrl = `https://${shop}/${api.slug}/api/${apiVersion.code}/graphql.json`;
       const shopifyAccessToken = backofficeApp.accessToken;
       const typesPath = join(
         __dirname,
-        `../../${outDir}/${apiSlug}/api/${apiVersion}/index.ts`,
+        `../../${outDir}/${api.slug}/api/${apiVersion.code}/index.ts`,
       );
       const introspectionPath = join(
         __dirname,
-        `../../${outDir}/${apiSlug}/api/${apiVersion}/graphql.schema.json`,
+        `../../${outDir}/${api.slug}/api/${apiVersion.code}/graphql.schema.json`,
       );
 
       await generateShopifyApiTypes({
@@ -94,29 +91,25 @@ const generateApiTypes = async () => {
  * we will create sort of aliases dir exports.
  * @returns {void}
  */
-const generateUnfetchableApisTypes = () => {
+const generateUnfetchableApiAliasesTypes = () => {
   const { outDir } = appConfig;
   const { apis } = shopifyConfig;
 
   // Loop in supported apis
-  for (const apiSlug in apis) {
-    const { versions } = apis[apiSlug];
-
-    for (const versionKey in versions) {
+  for (const api of apis) {
+    for (const apiVersion of api.versions) {
       // Ignore fetchable api slugs
-      if (unfetchableApis.indexOf(versionKey) === -1) continue;
-
-      const apiVersion = versions[versionKey];
+      if (unfetchableApiAliases.indexOf(apiVersion.name) === -1) continue;
 
       const typesDestinationDir = join(
         __dirname,
-        `../../${outDir}/${apiSlug}/api/${versionKey}`,
+        `../../${outDir}/api/${api.slug}/${apiVersion.name}`,
       );
 
       if (!existsSync(typesDestinationDir))
         mkdirSync(typesDestinationDir, { recursive: true });
 
-      const types = `export * from '../${apiVersion}';`;
+      const types = `export * from '../${apiVersion.code}';`;
 
       writeFileSync(`${typesDestinationDir}/index.ts`, types);
     }
@@ -124,30 +117,21 @@ const generateUnfetchableApisTypes = () => {
 };
 
 /**
- * It adds a folder containing some mnually added types that extends pre-defined types
+ * It adds a folder containing some manually added types that extends pre-defined types
  * of @shopify/shopify-api package.
  * @returns {void}
  */
 const generateShopifyApiUtilsTypes = () => {
   const { outDir } = appConfig;
 
-  const shopifyApiUtilsSourceDir = join(
-    __dirname,
-    '../shared/types/utils/shopify-api/index.types.ts',
-  );
+  const shopifyApiUtilsSourceDir = join(__dirname, '../shared/types/packaged');
 
-  const shopifyApiUtilsDestinationDir = join(
-    __dirname,
-    `../../${outDir}/utils/shopify-api`,
-  );
+  const shopifyApiUtilsDestinationDir = join(__dirname, `../../${outDir}`);
 
   if (!existsSync(shopifyApiUtilsDestinationDir))
     mkdirSync(shopifyApiUtilsDestinationDir, { recursive: true });
 
-  copyFileSync(
-    shopifyApiUtilsSourceDir,
-    `${shopifyApiUtilsDestinationDir}/index.ts`,
-  );
+  copySync(shopifyApiUtilsSourceDir, shopifyApiUtilsDestinationDir);
 };
 
 /**
@@ -156,9 +140,9 @@ const generateShopifyApiUtilsTypes = () => {
  */
 const codegen = async () => {
   await generateApiTypes();
-  generateUnfetchableApisTypes();
+  generateUnfetchableApiAliasesTypes();
 
   generateShopifyApiUtilsTypes();
 };
 
-export default codegen();
+export default codegen;

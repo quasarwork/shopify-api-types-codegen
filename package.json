@@ -8,24 +8,28 @@
     "url": "https://quasar.work"
   },
   "license": "MIT",
-  "main": "",
+  "main": "src/index.ts",
   "scripts": {
-    "clean": "del-cli --force lib",
-    "codegen": "ts-node -r tsconfig-paths/register src/codegen/codegen.service.ts",
+    "clean": "del-cli --force package",
+    "codegen": "ts-node -r tsconfig-paths/register src/index.ts",
     "build": "yarn clean && yarn codegen",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "test:ts": "glob -c \"tsx --test --watch\" \"./src/**/*.test.ts\""
   },
   "devDependencies": {
     "@graphql-codegen/cli": "3.0.0",
     "@graphql-codegen/client-preset": "2.0.0",
     "@graphql-codegen/introspection": "3.0.0",
+    "@types/node": "^20.6.3",
     "del-cli": "^5.0.0",
     "dotenv": "^16.0.3",
     "env-var": "^7.3.0",
+    "fs-extra": "^11.1.1",
+    "glob": "^10.3.4",
     "graphql": "^16.6.0",
     "path": "^0.12.7",
-    "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2",
+    "tsx": "^3.12.10",
     "typescript": "^5.2.2"
   }
 }

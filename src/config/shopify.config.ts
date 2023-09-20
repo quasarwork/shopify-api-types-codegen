@@ -1,8 +1,28 @@
 import { get } from 'env-var';
 
 import '@libs/utils/dotenv.lib';
+import { getSupportedShopifyAdminApiVersions } from '@libs/helpers/shopify/get-shopify-admin-api-versions';
+import {
+  ShopifyApiVersion,
+  SupportedShopifyApiSlugs,
+} from '@shared/types/dev/shopify-custom.types';
 
-export const shopifyConfig = {
+interface ShopifyConfig {
+  shop: string;
+
+  backofficeApp: {
+    apiKey: string;
+    apiSecret: string;
+    accessToken: string;
+  };
+
+  apis: {
+    slug: SupportedShopifyApiSlugs;
+    versions: ShopifyApiVersion[];
+  }[];
+}
+
+export const shopifyConfig: ShopifyConfig = {
   shop: get('SHOP').required().asString(),
 
   // Shopify credentials from backoffice generated app
@@ -15,21 +35,11 @@ export const shopifyConfig = {
   },
 
   // Supported apis
-  apis: {
-    // https://shopify.dev/docs/api/admin-graphql
-    admin: {
-      // Supported versions
-      versions: {
-        release_candidate: '2023-04',
-        latest: '2023-01',
-
-        unstable: 'unstable',
-        April23: '2023-04',
-        January23: '2023-01',
-        October22: '2022-10',
-        July22: '2022-07',
-        April22: '2022-04',
-      },
+  apis: [
+    {
+      // https://shopify.dev/docs/api/admin-graphql
+      slug: 'admin',
+      versions: getSupportedShopifyAdminApiVersions(new Date()),
     },
-  },
+  ],
 };
