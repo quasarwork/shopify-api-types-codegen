@@ -66,11 +66,11 @@ const generateApiTypes = async () => {
       const shopifyAccessToken = backofficeApp.accessToken;
       const typesPath = join(
         __dirname,
-        `../../${outDir}/${api.slug}/api/${apiVersion.code}/index.ts`,
+        `../../${outDir}/api/${api.slug}/${apiVersion.code}/index.ts`,
       );
       const introspectionPath = join(
         __dirname,
-        `../../${outDir}/${api.slug}/api/${apiVersion.code}/graphql.schema.json`,
+        `../../${outDir}/api/${api.slug}/${apiVersion.code}/graphql.schema.json`,
       );
 
       await generateShopifyApiTypes({
