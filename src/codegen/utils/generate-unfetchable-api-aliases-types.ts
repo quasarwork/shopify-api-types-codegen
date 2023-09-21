@@ -24,7 +24,7 @@ export const generateUnfetchableApiAliasesTypes = (
 
     const typesDestinationDir = join(
       __dirname,
-      `../../${outDir}/api/${api.slug}/${apiVersion.name}`,
+      `../../../${outDir}/api/${api.slug}/${apiVersion.name}`,
     );
 
     if (!existsSync(typesDestinationDir))
