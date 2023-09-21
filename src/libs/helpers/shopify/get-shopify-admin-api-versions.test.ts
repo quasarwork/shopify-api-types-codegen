@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   getReleaseCandidateShopifyAdminApiVersionCode,
   getSupportedShopifyAdminApiVersionCodes,
-  getSupportedShopifyAdminApiVersions,
+  getSupportedShopifyApiVersions,
 } from './get-shopify-admin-api-versions';
 
 describe('Get release candidate Shopify Admin API Version code', () => {
@@ -124,7 +124,7 @@ describe('Get supported Shopify Admin API Versions', () => {
 
     testCases.forEach(({ currentDate, expectedSupportedVersions }) => {
       const supportedShopifyAdminApiVersionsCodes =
-        getSupportedShopifyAdminApiVersions(currentDate);
+        getSupportedShopifyApiVersions(currentDate);
 
       assert.strictEqual(
         JSON.stringify(supportedShopifyAdminApiVersionsCodes),

@@ -1,34 +1,35 @@
 import { get } from 'env-var';
 
 import '@libs/utils/dotenv.lib';
-import { getSupportedShopifyAdminApiVersions } from '@libs/helpers/shopify/get-shopify-admin-api-versions';
+import { getSupportedShopifyApiVersions } from '@libs/helpers/shopify/get-shopify-admin-api-versions';
 import {
   ShopifyApiVersion,
   SupportedShopifyApiSlugs,
 } from '@shared/types/dev/shopify-custom.types';
 
-interface ShopifyConfig {
+export interface ShopifyConfigApi {
+  slug: SupportedShopifyApiSlugs;
+  versions: ShopifyApiVersion[];
+}
+
+export interface ShopifyConfig {
   shop: string;
 
   backofficeApp: {
-    apiKey: string;
-    apiSecret: string;
     accessToken: string;
   };
 
-  apis: {
-    slug: SupportedShopifyApiSlugs;
-    versions: ShopifyApiVersion[];
-  }[];
+  apis: ShopifyConfigApi[];
 }
+
+// These keys are specified in config file but are not fetchable "as is" from Shopify
+export const UNFETCHABLE_API_ALIASES = ['release_candidate', 'latest'];
 
 export const shopifyConfig: ShopifyConfig = {
   shop: get('SHOP').required().asString(),
 
   // Shopify credentials from backoffice generated app
   backofficeApp: {
-    apiKey: get('SHOPIFY_BACKOFFICE_APP_API_KEY').required().asString(),
-    apiSecret: get('SHOPIFY_BACKOFFICE_APP_API_SECRET').required().asString(),
     accessToken: get('SHOPIFY_BACKOFFICE_APP_ACCESS_TOKEN')
       .required()
       .asString(),
@@ -39,7 +40,13 @@ export const shopifyConfig: ShopifyConfig = {
     {
       // https://shopify.dev/docs/api/admin-graphql
       slug: 'admin',
-      versions: getSupportedShopifyAdminApiVersions(new Date()),
+      versions: getSupportedShopifyApiVersions(new Date()),
+    },
+
+    {
+      // https://shopify.dev/docs/api/payments-apps
+      slug: 'payments_apps',
+      versions: getSupportedShopifyApiVersions(new Date()),
     },
   ],
 };

@@ -117,7 +117,7 @@ export const getShopifyAdminApiVersionNameFromCode = (
   return `${monthName}${yearTwoDigitNumber}` as ShopifyApiVersionName;
 };
 
-export const getSupportedShopifyAdminApiVersions = (
+export const getSupportedShopifyApiVersions = (
   currentDate: Date,
 ): ShopifyApiVersion[] => {
   let versions: ShopifyApiVersion[] = [];

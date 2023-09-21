@@ -5,7 +5,7 @@ import {
   YearNumber,
 } from '@shared/types/dev/utils/date.types';
 
-export type SupportedShopifyApiSlugs = 'admin';
+export type SupportedShopifyApiSlugs = 'admin' | 'payments_apps';
 
 export type ShopifyApiVersionName =
   | `${MonthName}${TwoDigitNumber}`

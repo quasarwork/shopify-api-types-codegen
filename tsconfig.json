@@ -20,6 +20,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@config/*": ["src/config/*"],
+      "@codegen/*": ["src/codegen/*"],
       "@libs/*": ["src/libs/*"],
       "@shared/*": ["src/shared/*"]
     }
