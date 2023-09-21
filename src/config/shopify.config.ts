@@ -19,6 +19,11 @@ export interface ShopifyConfig {
     accessToken: string;
   };
 
+  paymentApps: {
+    shop: string;
+    accessToken: string;
+  };
+
   apis: ShopifyConfigApi[];
 }
 
@@ -33,6 +38,11 @@ export const shopifyConfig: ShopifyConfig = {
     accessToken: get('SHOPIFY_BACKOFFICE_APP_ACCESS_TOKEN')
       .required()
       .asString(),
+  },
+
+  paymentApps: {
+    shop: get('PAYMENT_APPS_SHOP').required().asString(),
+    accessToken: get('PAYMENT_APPS_APP_ACCESS_TOKEN').required().asString(),
   },
 
   // Supported apis

@@ -11,15 +11,21 @@
   "main": "src/index.ts",
   "scripts": {
     "clean": "del-cli --force package",
+    "clean:schema": "del-cli --force package/**/*.json",
     "codegen": "ts-node -r tsconfig-paths/register src/index.ts",
-    "build": "yarn clean && yarn codegen",
+    "build": "yarn clean && yarn codegen && yarn clean:schema && yarn prettier:write",
     "prepublish": "yarn build",
-    "test:ts": "glob -c \"tsx --test --watch\" \"./src/**/*.test.ts\""
+    "test:ts": "glob -c \"tsx --test --watch\" \"./src/**/*.test.ts\"",
+    "types:check": "tsc --noEmit",
+    "prettier:write": "prettier --write \"./src/**/*.ts\"",
+    "prettier:write:package": "prettier --write \"./package/**/*\""
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",
     "@graphql-codegen/introspection": "4.0.0",
+    "@graphql-codegen/typescript": "4.0.1",
+    "@graphql-codegen/typescript-resolvers": "4.0.1",
     "@types/node": "^20.6.3",
     "del-cli": "^5.0.0",
     "dotenv": "^16.0.3",
@@ -28,11 +34,10 @@
     "glob": "^10.3.4",
     "graphql": "^16.6.0",
     "path": "^0.12.7",
+    "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2",
     "tsx": "^3.12.10",
-    "typescript": "^5.2.2",
-    "@graphql-codegen/typescript": "4.0.1",
-    "@graphql-codegen/typescript-resolvers": "4.0.1"
+    "typescript": "^5.2.2"
   }
 }

@@ -46,7 +46,7 @@ export const buildConfigThenGenerateApiTypesDefault = async (
   unfetchableApiAliases: string[],
 ) => {
   const { outDir } = appConfig;
-  const { shop, backofficeApp, apis } = shopifyConfig;
+  const { shop, backofficeApp } = shopifyConfig;
 
   // Loop in supported apis
   for (const apiVersion of api.versions) {

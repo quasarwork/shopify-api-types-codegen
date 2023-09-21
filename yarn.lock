@@ -841,7 +841,7 @@
     "@graphql-codegen/plugin-helpers" "^5.0.0"
     tslib "~2.5.0"
 
-"@graphql-codegen/cli@^5.0.0":
+"@graphql-codegen/cli@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-5.0.0.tgz#761dcf08cfee88bbdd9cdf8097b2343445ec6f0a"
   integrity sha512-A7J7+be/a6e+/ul2KI5sfJlpoqeqwX8EzktaKCeduyVKgOLA6W5t+NUGf6QumBDXU8PEOqXk3o3F+RAwCWOiqA==
@@ -921,7 +921,7 @@
     auto-bind "~4.0.0"
     tslib "~2.5.0"
 
-"@graphql-codegen/introspection@^4.0.0":
+"@graphql-codegen/introspection@4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/introspection/-/introspection-4.0.0.tgz#1d851d8fb38efbeaf45128456e3010a16e6c9708"
   integrity sha512-t9g3AkK99dfHblMWtG4ynUM9+A7JrWq5110zSpNV2wlSnv0+bRKagDW8gozwgXfR5i1IIG8QDjJZ6VgXQVqCZw==
@@ -973,7 +973,19 @@
     auto-bind "~4.0.0"
     tslib "~2.5.0"
 
-"@graphql-codegen/typescript@^4.0.1":
+"@graphql-codegen/typescript-resolvers@4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-resolvers/-/typescript-resolvers-4.0.1.tgz#e75aa2be18a76f8655f8ab85763d09b5ea722c40"
+  integrity sha512-dydE2VsNud/gZZG9FV0DldPA7voExCn7FQE3V9ZAjhqCDjCcSDHUIWxG5JoaW0G75ooPEDmN7ZFd+uaJ2BEqzQ==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^5.0.0"
+    "@graphql-codegen/typescript" "^4.0.1"
+    "@graphql-codegen/visitor-plugin-common" "4.0.1"
+    "@graphql-tools/utils" "^10.0.0"
+    auto-bind "~4.0.0"
+    tslib "~2.5.0"
+
+"@graphql-codegen/typescript@4.0.1", "@graphql-codegen/typescript@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript/-/typescript-4.0.1.tgz#7481d68f59bea802dd10e278dce73c8a1552b2a4"
   integrity sha512-3YziQ21dCVdnHb+Us1uDb3pA6eG5Chjv0uTK+bt9dXeMlwYBU8MbtzvQTo4qvzWVC1AxSOKj0rgfNu1xCXqJyA==
@@ -3279,6 +3291,11 @@ picomatch@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
+
+prettier@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.0.3.tgz#432a51f7ba422d1469096c0fdc28e235db8f9643"
+  integrity sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==
 
 process@^0.11.1:
   version "0.11.10"
