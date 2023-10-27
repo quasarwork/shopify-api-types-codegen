@@ -6,7 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
+    "target": "ESNext",
     "sourceMap": true,
     "rootDir": ".",
     "outDir": "./lib",
@@ -20,9 +20,11 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@config/*": ["src/config/*"],
+      "@codegen/*": ["src/codegen/*"],
       "@libs/*": ["src/libs/*"],
       "@shared/*": ["src/shared/*"]
     }
   },
-  "include": ["src"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "lib"]
 }

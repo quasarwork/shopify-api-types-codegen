@@ -1,5 +1,6 @@
 # compiled output
 /dist
+/package
 /lib
 /node_modules
 

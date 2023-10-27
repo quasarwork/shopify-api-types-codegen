@@ -1,35 +1,62 @@
 import { get } from 'env-var';
 
 import '@libs/utils/dotenv.lib';
+import { getSupportedShopifyApiVersions } from '@libs/helpers/shopify/get-shopify-admin-api-versions';
+import {
+  ShopifyApiVersion,
+  SupportedShopifyApiSlugs,
+} from '@shared/types/dev/shopify-custom.types';
 
-export const shopifyConfig = {
+export interface ShopifyConfigApi {
+  slug: SupportedShopifyApiSlugs;
+  versions: ShopifyApiVersion[];
+}
+
+export interface ShopifyConfig {
+  shop: string;
+
+  backofficeApp: {
+    accessToken: string;
+  };
+
+  paymentApps: {
+    shop: string;
+    accessToken: string;
+  };
+
+  apis: ShopifyConfigApi[];
+}
+
+// These keys are specified in config file but are not fetchable "as is" from Shopify
+export const UNFETCHABLE_API_ALIASES = ['release_candidate', 'latest'];
+
+export const shopifyConfig: ShopifyConfig = {
   shop: get('SHOP').required().asString(),
 
   // Shopify credentials from backoffice generated app
   backofficeApp: {
-    apiKey: get('SHOPIFY_BACKOFFICE_APP_API_KEY').required().asString(),
-    apiSecret: get('SHOPIFY_BACKOFFICE_APP_API_SECRET').required().asString(),
     accessToken: get('SHOPIFY_BACKOFFICE_APP_ACCESS_TOKEN')
       .required()
       .asString(),
   },
 
-  // Supported apis
-  apis: {
-    // https://shopify.dev/docs/api/admin-graphql
-    admin: {
-      // Supported versions
-      versions: {
-        release_candidate: '2023-04',
-        latest: '2023-01',
-
-        unstable: 'unstable',
-        April23: '2023-04',
-        January23: '2023-01',
-        October22: '2022-10',
-        July22: '2022-07',
-        April22: '2022-04',
-      },
-    },
+  paymentApps: {
+    shop: get('PAYMENT_APPS_SHOP').required().asString(),
+    accessToken: get('PAYMENT_APPS_APP_ACCESS_TOKEN').required().asString(),
   },
+
+  // Supported apis
+  apis: [
+    {
+      // https://shopify.dev/docs/api/admin-graphql
+      slug: 'admin',
+      versions: getSupportedShopifyApiVersions(new Date()),
+    },
+
+    {
+      // https://shopify.dev/docs/api/payments-apps
+      slug: 'payments_apps',
+      versions: getSupportedShopifyApiVersions(new Date()),
+    },
+  ],
 };
